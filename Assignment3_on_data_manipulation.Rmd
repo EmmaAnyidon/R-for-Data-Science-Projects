@@ -1,6 +1,6 @@
 ---
 title: "Assignment_3_on_Data_manipulation"
-author: "Eberechukwu .I. Emmanuel, Mr. Charles Nworu"
+author: "Eberechukwu .I. Emmanuel, Mr. Charles Nwaoru"
 date: "2025-04-28"
 output: html_document
 ---
