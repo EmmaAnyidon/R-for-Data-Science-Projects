@@ -169,16 +169,21 @@ high_econ_indicators <- my_data%>%
 high_econ_indicators
 ```
 
+
+
 # 10. Can we fit a linear model of GDP vs Health and Education Expenditure for each country using nest_by() and summarise()?
 ```{r}
-#fit linear model GDP ~ Health + Education Expenditure for each country
+library(dplyr)
 library(tidyr)
 library(purrr)
-country_model <-my_data%>%
-  group_by(`Country Name`)%>%
-  nest()%>%
-  mutate(model = Map(data, ~ lm(GDP ~ `Health Expenditure`+ `Education Expenditure`,data = .)))%>%
-  summarise(model =list(model))
+
+#fit linear model GDP ~ Health + Education Expenditure for each country
+country_model <- my_data %>%
+  group_by(`Country Name`) %>%
+  nest() %>%
+  mutate(data = map(data, ~ drop_na(.x, GDP, `Health Expenditure`, `Education Expenditure`))) %>%
+  filter(map_int(data, nrow) > 1) %>%  # keep only countries with at least 2 rows
+  mutate(model = map(data, ~ lm(GDP ~ `Health Expenditure` + `Education Expenditure`, data = .)))
 
 ```
 
